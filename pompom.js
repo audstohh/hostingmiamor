@@ -1,5 +1,6 @@
 const pompom = document.getElementById("pompom");
 const bounceSound = document.getElementById("bounce-sound");
+const growBtn = document.getElementById("grow-btn");
 
 /* =====================
    ESTADO POSICIÓN
@@ -13,10 +14,15 @@ let vy = 0;
 /* =====================
    ROTACIÓN
 ===================== */
-let angle = 0;        // grados
-let angularV = 0;     // velocidad angular
+let angle = 0;
+let angularV = 0;
 
 const angularFriction = 0.98;
+
+/* =====================
+   TAMAÑO (CLAVE)
+===================== */
+let size = 120; // tamaño REAL en px
 
 /* =====================
    FÍSICA
@@ -37,14 +43,20 @@ let offsetY = 0;
 ===================== */
 function playBounce(force) {
   bounceSound.currentTime = 0;
-
   bounceSound.volume = Math.min(0.2 + force * 0.03, 1);
-
-  const pitch = Math.min(0.8 + force * 0.05, 1.6);
-  bounceSound.playbackRate = pitch;
-
+  bounceSound.playbackRate = Math.min(0.8 + force * 0.05, 1.6);
   bounceSound.play();
 }
+
+/* =====================
+   BOTÓN MÁS GRANDE
+===================== */
+growBtn.onclick = () => {
+  size += 40;
+  if (size > 400) size = 120;
+
+  pompom.style.width = size + "px";
+};
 
 /* =====================
    ANTI DRAG FANTASMA
@@ -87,7 +99,7 @@ document.addEventListener("mousemove", (e) => {
   vx = newX - x;
   vy = newY - y;
 
-  angularV = vx * 0.5; // girar según arrastre horizontal
+  angularV = vx * 0.5;
 
   x = newX;
   y = newY;
@@ -98,7 +110,6 @@ document.addEventListener("mousemove", (e) => {
 ===================== */
 function update() {
   if (!dragging) {
-    /* gravedad */
     vy += gravity;
 
     x += vx;
@@ -106,7 +117,6 @@ function update() {
 
     vx *= friction;
     angularV *= angularFriction;
-
     angle += angularV;
 
     const floor = window.innerHeight - pompom.offsetHeight;
@@ -114,7 +124,6 @@ function update() {
     const wallL = 0;
     const wallR = window.innerWidth - pompom.offsetWidth;
 
-    /* piso */
     if (y > floor) {
       y = floor;
       vy *= -bounce;
@@ -122,15 +131,12 @@ function update() {
       playBounce(Math.abs(vy));
     }
 
-    /* techo */
     if (y < ceiling) {
       y = ceiling;
       vy *= -bounce;
-      angularV += vx * 0.4;
       playBounce(Math.abs(vy));
     }
 
-    /* pared izquierda */
     if (x < wallL) {
       x = wallL;
       vx *= -bounce;
@@ -138,7 +144,6 @@ function update() {
       playBounce(Math.abs(vx));
     }
 
-    /* pared derecha */
     if (x > wallR) {
       x = wallR;
       vx *= -bounce;
