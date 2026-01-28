@@ -30,7 +30,7 @@ to { background-position: 400px 0; }
 position: fixed;
 inset: 0;
 
-
+font-weight: 900;
 display: flex;
 flex-direction: column;
 justify-content: center;
