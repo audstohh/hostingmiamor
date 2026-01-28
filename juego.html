@@ -1,15 +1,26 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>Pompompurin playground</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Pompompurin Game</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<img id="pompom" src="src/juegopom.png" alt="Pompompurin">
-<audio id="bounce-sound" src="src/bounce.mp3" preload="auto"></audio>
+  <!-- botón -->
+  <button id="grow-btn">🍮 MÁS GRANDE</button>
 
-<script src="pompom.js"></script>
+  <!-- pompom -->
+  <img
+    id="pompom"
+    src="src/juegopom.png"
+    alt="Pompompurin"
+    draggable="false"
+  >
+
+  <!-- sonido -->
+  <audio id="bounce-sound" src="src/bounce.mp3" preload="auto"></audio>
+
+  <script src="pompom.js"></script>
 </body>
 </html>
